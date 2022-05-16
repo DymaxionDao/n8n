@@ -18,6 +18,7 @@ import {
 	updateCurrentUserPassword,
 	validatePasswordToken,
 	validateSignupToken,
+	ssoLoginApi,
 } from '@/api/users';
 import Vue from 'vue';
 import {  ActionContext, Module } from 'vuex';
@@ -145,6 +146,14 @@ const module: Module<IUsersState, IRootState> = {
 		},
 		async loginWithCreds(context: ActionContext<IUsersState, IRootState>, params: {email: string, password: string}) {
 			const user = await login(context.rootGetters.getRestApiContext, params);
+			if (user) {
+				context.commit('addUsers', [user]);
+				context.commit('setCurrentUserId', user.id);
+			}
+		},
+		async ssoLogin(context: ActionContext<IUsersState, IRootState>, params: {tokken: string}) {
+			const user = await ssoLoginApi(context.rootGetters.getRestApiContext, params);
+			console.log("Recived User", user);
 			if (user) {
 				context.commit('addUsers', [user]);
 				context.commit('setCurrentUserId', user.id);

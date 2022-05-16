@@ -31,6 +31,10 @@ export interface PublicUser {
 	isPending: boolean;
 }
 
+export interface SsoUser {
+	email: string;
+	name: string;
+}
 export interface N8nApp {
 	app: Application;
 	restEndpoint: string;

@@ -11,6 +11,7 @@ import SettingsUsersView from './views/SettingsUsersView.vue';
 import SetupView from './views/SetupView.vue';
 import SigninView from './views/SigninView.vue';
 import SignupView from './views/SignupView.vue';
+import SsoLogin from './views/SsoLogin.vue';
 import Router, { Route } from 'vue-router';
 
 import TemplatesCollectionView from '@/views/TemplatesCollectionView.vue';
@@ -233,6 +234,24 @@ const router = new Router({
 			name: VIEWS.SIGNIN,
 			components: {
 				default: SigninView,
+			},
+			meta: {
+				telemetry: {
+					pageCategory: 'auth',
+				},
+				permissions: {
+					allow: {
+						loginStatus: [LOGIN_STATUS.LoggedOut],
+					},
+				},
+			},
+		},
+		{
+			path: '/sso',
+			query:{'tokken':""},
+			name: VIEWS.SSO_LOGIN,
+			components: {
+				default: SsoLogin,
 			},
 			meta: {
 				telemetry: {

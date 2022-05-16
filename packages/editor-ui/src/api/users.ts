@@ -14,6 +14,11 @@ export function login(context: IRestApiContext, params: {email: string, password
 	return makeRestApiRequest(context, 'POST', '/login', params);
 }
 
+export function ssoLoginApi(context: IRestApiContext, params: {tokken: string}): Promise<IUserResponse> {
+	return makeRestApiRequest(context, 'GET', `/sso/callback?tokken=${params.tokken}`);
+}
+
+
 export async function logout(context: IRestApiContext): Promise<void> {
 	await makeRestApiRequest(context, 'POST', '/logout');
 }

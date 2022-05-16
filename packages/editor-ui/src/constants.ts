@@ -235,4 +235,5 @@ export enum VIEWS {
 	USERS_SETTINGS = "UsersSettings",
 	PERSONAL_SETTINGS = "PersonalSettings",
 	NOT_FOUND = "NotFoundView",
+	SSO_LOGIN ="SsoLoginView",
 }

@@ -225,6 +225,11 @@ export type LoginRequest = AuthlessRequest<
 	}
 >;
 
+//----------------------------------
+//             /login
+// ----------------------------------
+export type SsoLoginRequest = AuthlessRequest<{}, {}, {}, { tokken: string }>;
+
 // ----------------------------------
 //          oauth endpoints
 // ----------------------------------

@@ -26,6 +26,7 @@ import {
 	isUserManagementDisabled,
 } from '../UserManagementHelper';
 import { Db } from '../..';
+import { ssoApis } from './sso';
 
 export function addRoutes(this: N8nApp, ignoredEndpoints: string[], restEndpoint: string): void {
 	// needed for testing; not adding overhead since it directly returns if req.cookies exists
@@ -66,6 +67,7 @@ export function addRoutes(this: N8nApp, ignoredEndpoints: string[], restEndpoint
 			req.url.includes('.svg') ||
 			req.url.startsWith(`/${restEndpoint}/settings`) ||
 			req.url.startsWith(`/${restEndpoint}/login`) ||
+			req.url.startsWith(`/${restEndpoint}/sso`) ||
 			req.url.startsWith(`/${restEndpoint}/logout`) ||
 			req.url.startsWith(`/${restEndpoint}/resolve-signup-token`) ||
 			isPostUsersId(req, restEndpoint) ||
@@ -138,6 +140,7 @@ export function addRoutes(this: N8nApp, ignoredEndpoints: string[], restEndpoint
 	});
 
 	authenticationMethods.apply(this);
+	ssoApis.apply(this);
 	ownerNamespace.apply(this);
 	meNamespace.apply(this);
 	passwordResetNamespace.apply(this);
