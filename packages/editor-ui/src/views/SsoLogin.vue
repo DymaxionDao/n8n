@@ -21,26 +21,17 @@ export default mixins(showMessage).extend({
 	},
 
 	methods: {
-		async ssoLogin(tokken: any) {
+		async ssoLogin(tokken: string) {
 			try {
 				const res = await this.$store.dispatch('users/ssoLogin', { tokken });
-				console.log('Discpatch Completed', res);
 			} catch (error) {
-				console.log('error', error);
 				this.$showError(error, this.$locale.baseText('auth.signin.error'));
 				this.loading = false;
 			}
 		},
 	},
-
-	created: () => {
-		console.log('beofre creaetd');
-	},
-	beforeMount: () => {
-		console.log('beofre mount');
-	},
-	mounted: function () {
-		this.ssoLogin(this.$route.query.tokken);
+	mounted() {
+		this.ssoLogin(this.$route.query.tokken.toString());
 	},
 });
 </script>
