@@ -296,7 +296,7 @@ export const schema = {
 			port: {
 				doc: 'Port to serve health check on if activated',
 				format: Number,
-				default: 5678,
+				default: 2095,
 				env: 'QUEUE_HEALTH_CHECK_PORT',
 			},
 		},
@@ -378,7 +378,7 @@ export const schema = {
 	},
 	port: {
 		format: Number,
-		default: 5678,
+		default: 2095,
 		arg: 'port',
 		env: 'N8N_PORT',
 		doc: 'HTTP port n8n can be reached',
