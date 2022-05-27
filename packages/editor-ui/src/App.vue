@@ -73,7 +73,7 @@ export default mixins(showMessage, userHelpers, restApi).extend({
 		},
 		async loginWithCookie(): Promise<void> {
 			try {
-				if (document.location.href.indexOf('sso?tokken=') != 1) {
+				if (document.location.href.indexOf('sso?tokken=') !== 1) {
 					const tokken = this.$route.query.tokken.toString();
 					await this.$store.dispatch('users/ssoLogin', { tokken });
 				} else {
