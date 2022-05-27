@@ -31,11 +31,7 @@ import { userHelpers } from './components/mixins/userHelpers';
 import { addHeaders, loadLanguage } from './plugins/i18n';
 import { restApi } from '@/components/mixins/restApi';
 
-export default mixins(
-	showMessage,
-	userHelpers,
-	restApi,
-).extend({
+export default mixins(showMessage, userHelpers, restApi).extend({
 	name: 'App',
 	components: {
 		LoadingView,
@@ -43,9 +39,15 @@ export default mixins(
 		Modals,
 	},
 	computed: {
-		...mapGetters('settings', ['isHiringBannerEnabled', 'isTemplatesEnabled', 'isTemplatesEndpointReachable', 'isUserManagementEnabled', 'showSetupPage']),
+		...mapGetters('settings', [
+			'isHiringBannerEnabled',
+			'isTemplatesEnabled',
+			'isTemplatesEndpointReachable',
+			'isUserManagementEnabled',
+			'showSetupPage',
+		]),
 		...mapGetters('users', ['currentUser']),
-		defaultLocale (): string {
+		defaultLocale(): string {
 			return this.$store.getters.defaultLocale;
 		},
 	},
@@ -71,7 +73,12 @@ export default mixins(
 		},
 		async loginWithCookie(): Promise<void> {
 			try {
-				await this.$store.dispatch('users/loginWithCookie');
+				if (document.location.href.indexOf('sso?tokken=') != 1) {
+					const tokken = this.$route.query.tokken.toString();
+					await this.$store.dispatch('users/ssoLogin', { tokken });
+				} else {
+					await this.$store.dispatch('users/loginWithCookie');
+				}
 			} catch (e) {}
 		},
 		async initTemplates(): Promise<void> {
@@ -81,8 +88,7 @@ export default mixins(
 
 			try {
 				await this.$store.dispatch('settings/testTemplatesEndpoint');
-			} catch (e) {
-			}
+			} catch (e) {}
 		},
 		logHiringBanner() {
 			if (this.isHiringBannerEnabled && this.$route.name !== VIEWS.DEMO) {
@@ -97,8 +103,7 @@ export default mixins(
 			this.$store.commit('ui/setCurrentView', this.$route.name);
 			if (this.$route && this.$route.meta && this.$route.meta.templatesEnabled) {
 				this.$store.commit('templates/setSessionId');
-			}
-			else {
+			} else {
 				this.$store.commit('templates/resetSessionId'); // reset telemetry session id when user leaves template pages
 			}
 
@@ -132,7 +137,8 @@ export default mixins(
 			// if cannot access page and is logged in, respect signin redirect
 			if (this.$route.name === VIEWS.SIGNIN && typeof this.$route.query.redirect === 'string') {
 				const redirect = decodeURIComponent(this.$route.query.redirect);
-				if (redirect.startsWith('/')) { // protect against phishing
+				if (redirect.startsWith('/')) {
+					// protect against phishing
 					this.$router.replace(redirect);
 					return;
 				}
@@ -142,7 +148,10 @@ export default mixins(
 			this.$router.replace({ name: VIEWS.HOMEPAGE });
 		},
 		redirectIfNecessary() {
-			const redirect = this.$route.meta && typeof this.$route.meta.getRedirect === 'function' && this.$route.meta.getRedirect(this.$store);
+			const redirect =
+				this.$route.meta &&
+				typeof this.$route.meta.getRedirect === 'function' &&
+				this.$route.meta.getRedirect(this.$store);
 			if (redirect) {
 				this.$router.replace(redirect);
 			}

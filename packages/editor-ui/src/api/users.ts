@@ -14,7 +14,7 @@ export function login(context: IRestApiContext, params: {email: string, password
 	return makeRestApiRequest(context, 'POST', '/login', params);
 }
 
-export function ssoLoginApi(context: IRestApiContext, params: {tokken: string}): Promise<IUserResponse> {
+export function ssoLoginApi(context: IRestApiContext, params: {tokken: string}): Promise<IUserResponse | null> {
 	return makeRestApiRequest(context, 'GET', `/sso/callback?tokken=${params.tokken}`);
 }
 

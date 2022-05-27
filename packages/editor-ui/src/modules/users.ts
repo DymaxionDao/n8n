@@ -153,10 +153,9 @@ const module: Module<IUsersState, IRootState> = {
 		},
 		async ssoLogin(context: ActionContext<IUsersState, IRootState>, params: {tokken: string}) {
 			const user = await ssoLoginApi(context.rootGetters.getRestApiContext, params);
-			console.log("Recived User", user);
 			if (user) {
 				context.commit('addUsers', [user]);
-				context.commit('setCurrentUserId', user.id);
+				context.commit('setCurrentUserId', user.id.toString());
 			}
 		},
 		async logout(context: ActionContext<IUsersState, IRootState>) {
