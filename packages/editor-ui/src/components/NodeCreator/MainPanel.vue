@@ -1,9 +1,5 @@
 <template>
-	<div
-		class="container"
-		ref="mainPanelContainer"
-		@click="onClickInside"
-	>
+	<div class="container" ref="mainPanelContainer" @click="onClickInside">
 		<SlideTransition>
 			<SubcategoryPanel
 				v-if="activeSubcategory"
@@ -22,9 +18,18 @@
 			/>
 			<div class="type-selector">
 				<el-tabs v-model="selectedType" stretch>
-					<el-tab-pane :label="$locale.baseText('nodeCreator.mainPanel.all')" :name="ALL_NODE_FILTER"></el-tab-pane>
-					<el-tab-pane :label="$locale.baseText('nodeCreator.mainPanel.regular')" :name="REGULAR_NODE_FILTER"></el-tab-pane>
-					<el-tab-pane :label="$locale.baseText('nodeCreator.mainPanel.trigger')" :name="TRIGGER_NODE_FILTER"></el-tab-pane>
+					<el-tab-pane
+						:label="$locale.baseText('nodeCreator.mainPanel.all')"
+						:name="ALL_NODE_FILTER"
+					></el-tab-pane>
+					<el-tab-pane
+						:label="$locale.baseText('nodeCreator.mainPanel.regular')"
+						:name="REGULAR_NODE_FILTER"
+					></el-tab-pane>
+					<el-tab-pane
+						:label="$locale.baseText('nodeCreator.mainPanel.trigger')"
+						:name="TRIGGER_NODE_FILTER"
+					></el-tab-pane>
 				</el-tabs>
 			</div>
 			<div v-if="searchFilter.length === 0" class="scrollable">
@@ -36,26 +41,19 @@
 					@selected="selected"
 				/>
 			</div>
-			<div
-				class="scrollable"
-				v-else-if="filteredNodeTypes.length > 0"
-			>
+			<div class="scrollable" v-else-if="filteredNodeTypes.length > 0">
 				<ItemIterator
 					:elements="filteredNodeTypes"
 					:activeIndex="activeIndex"
 					@selected="selected"
 				/>
 			</div>
-			<NoResults
-				v-else
-				@nodeTypeSelected="$emit('nodeTypeSelected', $event)"
-			/>
+			<NoResults v-else @nodeTypeSelected="$emit('nodeTypeSelected', $event)" />
 		</div>
 	</div>
 </template>
 
 <script lang="ts">
-
 import Vue from 'vue';
 
 import { externalHooks } from '@/components/mixins/externalHooks';
@@ -66,7 +64,12 @@ import NoResults from './NoResults.vue';
 import SearchBar from './SearchBar.vue';
 import SubcategoryPanel from './SubcategoryPanel.vue';
 import { INodeCreateElement, INodeItemProps, ISubcategoryItemProps } from '@/Interface';
-import { ALL_NODE_FILTER, CORE_NODES_CATEGORY, REGULAR_NODE_FILTER, TRIGGER_NODE_FILTER } from '@/constants';
+import {
+	ALL_NODE_FILTER,
+	CORE_NODES_CATEGORY,
+	REGULAR_NODE_FILTER,
+	TRIGGER_NODE_FILTER,
+} from '@/constants';
 import SlideTransition from '../transitions/SlideTransition.vue';
 import { matchesNodeType, matchesSelectType } from './helpers';
 
@@ -117,12 +120,10 @@ export default mixins(externalHooks).extend({
 		},
 
 		categorized() {
-			return this.categorizedItems && this.categorizedItems
-				.reduce((accu: INodeCreateElement[], el: INodeCreateElement) => {
-					if (
-						el.type !== 'category' &&
-						!this.activeCategory.includes(el.category)
-					) {
+			return (
+				this.categorizedItems &&
+				this.categorizedItems.reduce((accu: INodeCreateElement[], el: INodeCreateElement) => {
+					if (el.type !== 'category' && !this.activeCategory.includes(el.category)) {
 						return accu;
 					}
 
@@ -142,7 +143,8 @@ export default mixins(externalHooks).extend({
 
 					accu.push(el);
 					return accu;
-				}, []);
+				}, [])
+			);
 		},
 
 		subcategorizedNodes() {
@@ -150,8 +152,12 @@ export default mixins(externalHooks).extend({
 			const category = activeSubcategory.category;
 			const subcategory = (activeSubcategory.properties as ISubcategoryItemProps).subcategory;
 
-			return activeSubcategory && this.categoriesWithNodes[category][subcategory]
-				.nodes.filter((el: INodeCreateElement) => matchesSelectType(el, this.selectedType));
+			return (
+				activeSubcategory &&
+				this.categoriesWithNodes[category][subcategory].nodes.filter((el: INodeCreateElement) =>
+					matchesSelectType(el, this.selectedType),
+				)
+			);
 		},
 	},
 	watch: {
@@ -202,15 +208,12 @@ export default mixins(externalHooks).extend({
 						this.activeSubcategoryIndex,
 						activeList.length - 1,
 					);
-				}
-				else if (e.key === 'ArrowUp' && this.activeSubcategory) {
+				} else if (e.key === 'ArrowUp' && this.activeSubcategory) {
 					this.activeSubcategoryIndex--;
 					this.activeSubcategoryIndex = Math.max(this.activeSubcategoryIndex, 0);
-				}
-				else if (e.key === 'Enter') {
+				} else if (e.key === 'Enter') {
 					this.selected(activeNodeType);
-				}
-				else if (e.key === 'ArrowLeft') {
+				} else if (e.key === 'ArrowLeft') {
 					this.onSubcategoryClose();
 				}
 
@@ -228,21 +231,32 @@ export default mixins(externalHooks).extend({
 			if (e.key === 'ArrowDown') {
 				this.activeIndex++;
 				// Make sure that we stop at the last nodeType
-				this.activeIndex = Math.min(
-					this.activeIndex,
-					activeList.length - 1,
-				);
+				this.activeIndex = Math.min(this.activeIndex, activeList.length - 1);
 			} else if (e.key === 'ArrowUp') {
 				this.activeIndex--;
 				// Make sure that we do not get before the first nodeType
 				this.activeIndex = Math.max(this.activeIndex, 0);
 			} else if (e.key === 'Enter' && activeNodeType) {
 				this.selected(activeNodeType);
-			} else if (e.key === 'ArrowRight' && activeNodeType && activeNodeType.type === 'subcategory') {
+			} else if (
+				e.key === 'ArrowRight' &&
+				activeNodeType &&
+				activeNodeType.type === 'subcategory'
+			) {
 				this.selected(activeNodeType);
-			} else if (e.key === 'ArrowRight' && activeNodeType && activeNodeType.type === 'category' && !activeNodeType.properties.expanded) {
+			} else if (
+				e.key === 'ArrowRight' &&
+				activeNodeType &&
+				activeNodeType.type === 'category' &&
+				!activeNodeType.properties.expanded
+			) {
 				this.selected(activeNodeType);
-			} else if (e.key === 'ArrowLeft' && activeNodeType && activeNodeType.type === 'category' && activeNodeType.properties.expanded) {
+			} else if (
+				e.key === 'ArrowLeft' &&
+				activeNodeType &&
+				activeNodeType.type === 'category' &&
+				activeNodeType.properties.expanded
+			) {
 				this.selected(activeNodeType);
 			}
 		},
@@ -257,12 +271,13 @@ export default mixins(externalHooks).extend({
 		},
 		onCategorySelected(category: string) {
 			if (this.activeCategory.includes(category)) {
-				this.activeCategory = this.activeCategory.filter(
-					(active: string) => active !== category,
-				);
+				this.activeCategory = this.activeCategory.filter((active: string) => active !== category);
 			} else {
 				this.activeCategory = [...this.activeCategory, category];
-				this.$telemetry.trackNodesPanel('nodeCreateList.onCategoryExpanded', { category_name: category, workflow_id: this.$store.getters.workflowId });
+				this.$telemetry.trackNodesPanel('nodeCreateList.onCategoryExpanded', {
+					category_name: category,
+					workflow_id: this.$store.getters.workflowId,
+				});
 			}
 
 			this.activeIndex = this.categorized.findIndex(
@@ -272,7 +287,10 @@ export default mixins(externalHooks).extend({
 		onSubcategorySelected(selected: INodeCreateElement) {
 			this.activeSubcategoryIndex = 0;
 			this.activeSubcategory = selected;
-			this.$telemetry.trackNodesPanel('nodeCreateList.onSubcategorySelected', { selected, workflow_id: this.$store.getters.workflowId });
+			this.$telemetry.trackNodesPanel('nodeCreateList.onSubcategorySelected', {
+				selected,
+				workflow_id: this.$store.getters.workflowId,
+			});
 		},
 
 		onSubcategoryClose() {
@@ -294,7 +312,9 @@ export default mixins(externalHooks).extend({
 	},
 	async destroyed() {
 		this.$externalHooks().run('nodeCreateList.destroyed');
-		this.$telemetry.trackNodesPanel('nodeCreateList.destroyed', { workflow_id: this.$store.getters.workflowId });
+		this.$telemetry.trackNodesPanel('nodeCreateList.destroyed', {
+			workflow_id: this.$store.getters.workflowId,
+		});
 	},
 });
 </script>
@@ -340,7 +360,7 @@ export default mixins(externalHooks).extend({
 
 .type-selector {
 	text-align: center;
-	background-color: $--node-creator-select-background-color;
+	background-color: var(--color-background-light);
 
 	::v-deep .el-tabs > div {
 		margin-bottom: 0;

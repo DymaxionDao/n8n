@@ -19,7 +19,7 @@
     "format": "cd ../.. && node_modules/prettier/bin-prettier.js packages/editor-ui/**/**.ts --write",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "lintfix": "tslint --fix -p tsconfig.json -c tslint.json",
-    "serve": "cross-env VUE_APP_URL_BASE_API=http://localhost:5678/ vue-cli-service serve --port 8081",
+    "serve": "cross-env VUE_APP_URL_BASE_API=http://localhost:2095/ vue-cli-service serve --port 8081",
     "test:e2e": "vue-cli-service test:e2e",
     "test:unit": "vue-cli-service test:unit"
   },

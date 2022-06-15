@@ -18,17 +18,16 @@
 </template>
 
 <script lang="ts">
-
 import mixins from 'vue-typed-mixins';
 
 import { externalHooks } from '@/components/mixins/externalHooks';
 
 export default mixins(externalHooks).extend({
-	name: "SearchBar",
-	props: ["value", "eventBus"],
+	name: 'SearchBar',
+	props: ['value', 'eventBus'],
 	mounted() {
 		if (this.$props.eventBus) {
-			this.$props.eventBus.$on("focus", () => {
+			this.$props.eventBus.$on('focus', () => {
 				this.focus();
 			});
 		}
@@ -47,10 +46,10 @@ export default mixins(externalHooks).extend({
 		},
 		onInput(event: InputEvent) {
 			const input = event.target as HTMLInputElement;
-			this.$emit("input", input.value);
+			this.$emit('input', input.value);
 		},
 		clear() {
-			this.$emit("input", "");
+			this.$emit('input', '');
 		},
 	},
 });
@@ -65,8 +64,8 @@ export default mixins(externalHooks).extend({
 	padding-right: 20px;
 	border-top: 1px solid $--node-creator-border-color;
 	border-bottom: 1px solid $--node-creator-border-color;
-	background-color: $--node-creator-search-background-color;
-	color: $--node-creator-search-placeholder-color;
+	background-color: var(--color-background-light);
+	color: var(--color-text-dark);
 }
 
 .prefix {
@@ -88,7 +87,8 @@ export default mixins(externalHooks).extend({
 		outline: none;
 		font-size: 18px;
 		-webkit-appearance: none;
-
+		background: inherit;
+		color: inherit;
 		&::placeholder,
 		&::-webkit-input-placeholder {
 			color: $--node-creator-search-placeholder-color;

@@ -1,6 +1,6 @@
 <template>
 	<div>
-		<div :class="{'main-header': true, expanded: !sidebarMenuCollapsed}">
+		<div :class="{ 'main-header': true, expanded: !sidebarMenuCollapsed }">
 			<div class="top-menu">
 				<ExecutionDetails v-if="isExecutionPage" />
 				<WorkflowDetails v-else />
@@ -19,38 +19,33 @@ import WorkflowDetails from '@/components/MainHeader/WorkflowDetails.vue';
 import ExecutionDetails from '@/components/MainHeader/ExecutionDetails/ExecutionDetails.vue';
 import { VIEWS } from '@/constants';
 
-export default mixins(
-	pushConnection,
-)
-	.extend({
-		name: 'MainHeader',
-		components: {
-			WorkflowDetails,
-			ExecutionDetails,
+export default mixins(pushConnection).extend({
+	name: 'MainHeader',
+	components: {
+		WorkflowDetails,
+		ExecutionDetails,
+	},
+	computed: {
+		...mapGetters('ui', ['sidebarMenuCollapsed']),
+		isExecutionPage(): boolean {
+			return this.$route.name === VIEWS.EXECUTION;
 		},
-		computed: {
-			...mapGetters('ui', [
-				'sidebarMenuCollapsed',
-			]),
-			isExecutionPage (): boolean {
-				return this.$route.name === VIEWS.EXECUTION;
-			},
-		},
-		async mounted() {
-			// Initialize the push connection
-			this.pushConnect();
-		},
-		beforeDestroy() {
-			this.pushDisconnect();
-		},
-	});
+	},
+	async mounted() {
+		// Initialize the push connection
+		this.pushConnect();
+	},
+	beforeDestroy() {
+		this.pushDisconnect();
+	},
+});
 </script>
 
 <style lang="scss">
 .main-header {
 	position: fixed;
 	top: 0;
-	background-color: #fff;
+	background-color: var(--color-background-xlight);
 	height: 65px;
 	width: 100%;
 	box-sizing: border-box;
@@ -69,5 +64,11 @@ export default mixins(
 	height: $--header-height;
 	font-weight: 400;
 	padding: 0 20px;
+}
+.top-menu input {
+	color: #999 !important;
+}
+.top-menu input[disabled] {
+	color: #999 !important;
 }
 </style>

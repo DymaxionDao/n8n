@@ -156,8 +156,45 @@ export default mixins(showMessage, userHelpers, restApi).extend({
 				this.$router.replace(redirect);
 			}
 		},
+		getCookie(cname: string) {
+			const name = cname + '=';
+			const decodedCookie = decodeURIComponent(document.cookie);
+			const ca = decodedCookie.split(';');
+			for (let i = 0; i < ca.length; i++) {
+				let c = ca[i];
+				while (c.charAt(0) === ' ') {
+					c = c.substring(1);
+				}
+				if (c.indexOf(name) === 0) {
+					return c.substring(name.length, c.length);
+				}
+			}
+			return '';
+		},
+		initTheme() {
+			const light = this.getCookie('theme') === 'light';
+			if (light) {
+				document.body.classList.remove('theme-dark');
+			} else {
+				document.body.classList.add('theme-dark');
+			}
+
+			window.addEventListener(
+				'message',
+				(event) => {
+					const theme = event.data;
+					if (theme !== 'light') {
+						document.body.classList.add('theme-dark');
+					} else {
+						document.body.classList.remove('theme-dark');
+					}
+				},
+				false,
+			);
+		},
 	},
 	async mounted() {
+		this.initTheme();
 		await this.initialize();
 		this.logHiringBanner();
 		this.authenticate();

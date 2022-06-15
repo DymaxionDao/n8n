@@ -50,7 +50,7 @@ export default Vue.extend({
 <style lang="scss" scoped>
 .subcategory-panel {
 	position: absolute;
-	background: $--node-creator-search-background-color;
+	background: var(--color-background-light);
 	z-index: 100;
 	height: 100%;
 	width: 100%;
@@ -68,7 +68,7 @@ export default Vue.extend({
 .subcategory-header {
 	border: $--node-creator-border-color solid 1px;
 	height: 50px;
-	background-color: $--node-creator-subcategory-panel-header-bacground-color;
+	background-color: var(--color-background-light);
 
 	font-size: 18px;
 	font-weight: 600;
@@ -99,5 +99,4 @@ export default Vue.extend({
 		padding-bottom: 30px;
 	}
 }
-
 </style>

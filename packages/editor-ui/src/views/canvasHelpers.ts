@@ -472,7 +472,7 @@ export const getBackgroundStyles = (scale: number, offsetPosition: XYPosition) =
 		const dotColor = getStyleTokenValue('--color-canvas-dot');
 		return {
 			...styles,
-			'background-image': `radial-gradient(circle at ${dotPosition}px ${dotPosition}px, ${dotColor} ${dotSize}px, transparent 0)`,
+			'background-image': `radial-gradient(circle at ${dotPosition}px ${dotPosition}px, ${"#656565"} ${dotSize}px, transparent 0)`,
 		};
 	}
 	return styles;

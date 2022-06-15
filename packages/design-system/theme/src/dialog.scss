@@ -6,7 +6,7 @@
 @include mixins.b(dialog) {
 	position: relative;
 	margin: 0 auto 50px;
-	background: var.$dialog-background-color;
+	background:var(--color-background-light);
 	border-radius: var(--border-radius-small);
 	box-shadow: var.$dialog-box-shadow;
 	box-sizing: border-box;

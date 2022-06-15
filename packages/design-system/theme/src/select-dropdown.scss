@@ -7,7 +7,7 @@
 	z-index: #{var.$index-top + 1};
 	border: var.$select-dropdown-border;
 	border-radius: var(--border-radius-base);
-	background-color: var.$select-dropdown-background;
+	background-color: var(--color-background-light);
 	box-shadow: var.$select-dropdown-shadow;
 	box-sizing: border-box;
 	margin: 5px 0;

@@ -137,9 +137,9 @@
 		var(--color-info-tint-2-l)
 	);
 
-	--color-text-dark-h: 0;
-	--color-text-dark-s: 0%;
-	--color-text-dark-l: 100%;
+	--color-text-dark-h: 214;
+	--color-text-dark-s: 22%;
+	--color-text-dark-l: 59%;
 	--color-text-dark: hsl(
 		var(--color-text-dark-h),
 		var(--color-text-dark-s),
@@ -219,17 +219,17 @@
 	);
 
 	--color-background-base-h: 252;
-	--color-background-base-s: 71%;
-	--color-background-base-l: 99%;
+	--color-background-base-s: 5%;
+	--color-background-base-l: 32%;
 	--color-background-base: hsl(
 		var(--color-background-base-h),
 		var(--color-background-base-s),
 		var(--color-background-base-l)
 	);
 
-	--color-background-light-h: 220;
-	--color-background-light-s: 27%;
-	--color-background-light-l: 98%;
+	--color-background-light-h: 213;
+	--color-background-light-s: 38%;
+	--color-background-light-l: 10%;
 	--color-background-light: hsl(
 		var(--color-background-light-h),
 		var(--color-background-light-s),
@@ -253,6 +253,16 @@
 		var(--color-background-xlight-s),
 		var(--color-background-xlight-l)
 	);
+
+	--color-canvas-background-h: 0.;
+	--color-canvas-background-s: 0%;
+	--color-canvas-background-l: 30%;
+	--color-canvas-background: hsl(
+		var(--color-canvas-background-h),
+		var(--color-canvas-background-s),
+		var(--color-canvas-background-l)
+	);
+
 }
 
 body.theme-dark {

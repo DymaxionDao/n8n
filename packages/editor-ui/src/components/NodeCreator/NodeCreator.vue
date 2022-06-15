@@ -5,9 +5,9 @@
 				v-if="active"
 				class="node-creator"
 				ref="nodeCreator"
-			 	v-click-outside="onClickOutside"
-			 	@dragover="onDragOver"
-			 	@drop="onDrop"
+				v-click-outside="onClickOutside"
+				@dragover="onDragOver"
+				@drop="onDrop"
 			>
 				<MainPanel
 					@nodeTypeSelected="nodeTypeSelected"
@@ -21,13 +21,12 @@
 </template>
 
 <script lang="ts">
-
 import Vue from 'vue';
 
 import { ICategoriesWithNodes, INodeCreateElement } from '@/Interface';
 import { INodeTypeDescription } from 'n8n-workflow';
 import SlideTransition from '../transitions/SlideTransition.vue';
-import { HIDDEN_NODES  } from '@/constants';
+import { HIDDEN_NODES } from '@/constants';
 
 import MainPanel from './MainPanel.vue';
 import { getCategoriesWithNodes, getCategorizedList } from './helpers';
@@ -39,9 +38,7 @@ export default Vue.extend({
 		MainPanel,
 		SlideTransition,
 	},
-	props: [
-		'active',
-	],
+	props: ['active'],
 	data() {
 		return {
 			allNodeTypes: [],
@@ -56,10 +53,11 @@ export default Vue.extend({
 			return this.allNodeTypes
 				.filter((nodeType: INodeTypeDescription) => {
 					return !HIDDEN_NODES.includes(nodeType.name);
-				}).reduce((accumulator: INodeTypeDescription[], currentValue: INodeTypeDescription) => {
+				})
+				.reduce((accumulator: INodeTypeDescription[], currentValue: INodeTypeDescription) => {
 					// keep only latest version of the nodes
 					// accumulator starts as an empty array.
-					const exists = accumulator.findIndex(nodes => nodes.name === currentValue.name);
+					const exists = accumulator.findIndex((nodes) => nodes.name === currentValue.name);
 					if (exists >= 0 && accumulator[exists].version < currentValue.version) {
 						// This must be a versioned node and we've found a newer version.
 						// Replace the previous one with this one.
@@ -98,12 +96,12 @@ export default Vue.extend({
 		},
 	},
 	methods: {
-		onClickOutside (e: Event) {
+		onClickOutside(e: Event) {
 			if (e.type === 'click') {
 				this.$emit('closeNodeCreator');
 			}
 		},
-		nodeTypeSelected (nodeTypeName: string) {
+		nodeTypeSelected(nodeTypeName: string) {
 			this.$emit('nodeTypeSelected', nodeTypeName);
 		},
 		onDragOver(event: DragEvent) {
@@ -118,7 +116,11 @@ export default Vue.extend({
 			const nodeCreatorBoundingRect = (this.$refs.nodeCreator as Element).getBoundingClientRect();
 
 			// Abort drag end event propagation if dropped inside nodes panel
-			if (nodeTypeName && event.pageX >= nodeCreatorBoundingRect.x && event.pageY >= nodeCreatorBoundingRect.y) {
+			if (
+				nodeTypeName &&
+				event.pageX >= nodeCreatorBoundingRect.x &&
+				event.pageY >= nodeCreatorBoundingRect.y
+			) {
 				event.stopPropagation();
 			}
 		},
@@ -134,7 +136,9 @@ export default Vue.extend({
 </script>
 
 <style scoped lang="scss">
-::v-deep *, *:before, *:after {
+::v-deep *,
+*:before,
+*:after {
 	box-sizing: border-box;
 }
 
@@ -144,9 +148,9 @@ export default Vue.extend({
 	right: 0;
 	width: $--node-creator-width;
 	height: 100%;
-	background-color: $--node-creator-background-color;
+	background-color: var(--color-background-light);
 	z-index: 200;
-	color: $--node-creator-text-color;
+	color: var(--color-text-dark);
 
 	&:before {
 		box-sizing: border-box;

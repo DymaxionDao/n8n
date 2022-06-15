@@ -20,7 +20,6 @@ export default mixins(showMessage).extend({
 			try {
 				await this.$store.dispatch('users/ssoLogin', { tokken });
 			} catch (error) {
-				console.log('error sso', error);
 				this.$showError(error, this.$locale.baseText('auth.signin.error'));
 				this.loading = false;
 			}
